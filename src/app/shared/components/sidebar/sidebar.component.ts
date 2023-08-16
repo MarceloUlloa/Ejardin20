@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -13,7 +14,9 @@ export class SidebarComponent implements OnInit{
 
   customOptions: Array<any> = []
   
-  constructor() { }
+  constructor(private router: Router) {
+    
+  }
 
   ngOnInit(): void {
     this.mainMenu.defaultOptions = [
@@ -41,8 +44,9 @@ export class SidebarComponent implements OnInit{
         icon: 'uil-plus-square'
       },
       {
-        name: 'Canciones que te gustan',
-        icon: 'uil-heart-medical'
+        name: 'Canciones que te gustanss',
+        icon: 'uil-heart-medical',
+        router: ['/', 'tracks'],
       }
     ]
 
@@ -64,6 +68,18 @@ export class SidebarComponent implements OnInit{
         router: ['/']
       }
     ]   
+  }
+
+  goTo($event: any): void {
+    this.router.navigate(['/', 'favorites'],{
+      queryParams:{
+        key1:'value1',
+        key2:'value2',
+        key3:'value3'
+      }
+    })
+    console.log($event)
+
   }
 }
 
