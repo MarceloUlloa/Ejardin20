@@ -44,8 +44,9 @@ export class SidebarComponent implements OnInit{
         icon: 'uil-plus-square'
       },
       {
-        name: 'Canciones que te gustan',
-        icon: 'uil-heart-medical'
+        name: 'Canciones que te gustanss',
+        icon: 'uil-heart-medical',
+        router: ['/', 'tracks'],
       }
     ]
 

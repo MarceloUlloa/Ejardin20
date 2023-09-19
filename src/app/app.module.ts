@@ -16,7 +16,8 @@ import { ExampleComponent } from './example/example.component';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
