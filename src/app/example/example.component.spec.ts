@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AuthpageComponent } from './authpage.component';
+import { ExampleComponent } from './example.component';
 
-describe('AuthpageComponent', () => {
-  let component: AuthpageComponent;
-  let fixture: ComponentFixture<AuthpageComponent>;
+describe('ExampleComponent', () => {
+  let component: ExampleComponent;
+  let fixture: ComponentFixture<ExampleComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AuthpageComponent]
+      declarations: [ExampleComponent]
     });
-    fixture = TestBed.createComponent(AuthpageComponent);
+    fixture = TestBed.createComponent(ExampleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
