@@ -5,11 +5,17 @@ import { HomepageComponent } from '@modules/home/pages/homepage/homepage.compone
  
 const routes: Routes = [
   {
-    path: 'auth',
+    path: '',
+    component: LoginPageComponent,
     loadChildren: () => import(`./modules/auth/auth.module`).then(m => m.AuthModule)
   },
   {
-    path: '',
+    path: 'auth',
+    component: LoginPageComponent,
+    loadChildren: () => import(`./modules/auth/auth.module`).then(m => m.AuthModule)
+  },
+  {
+    path: 'home',
     component: HomepageComponent,
     loadChildren: () => import(`./modules/home/home.module`).then(m => m.HomeModule)
   }
