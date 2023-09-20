@@ -1,5 +1,4 @@
 <div class="login-page">
-
     <div class="form">
         <div class="texto"><h1>E-JARDIN</h1></div>  
         <div id="verified" class="verified">
@@ -9,18 +8,22 @@
             <div class="texto">Autenticando...</div>
             <img src="..\..\assets\loading.gif" alt="Cargando..." width="350">
         </div>
-        <div>
+        <div id="imgusuario" class="imgusuario">
             <img src="..\..\assets\img_usuario.jpg" height="150" width="150" />
         </div>  
-
+        <div *ngIf="errorSession" class="textoerror">
+            Nombre de usuario/contraseña incorrecta.
+        </div>
+        <div *ngIf="openSession" class="textook">
+            Bienvenido, {{nombrePersona}}
+        </div>        
+        <div>
+            &nbsp;
+        </div>
         <form (ngSubmit)="sendLogin()" [formGroup]="formLogin" class="login-form">
             <input formControlName="user" type="text" placeholder="Nombre de Usuario"/>
             <input formControlName="password" type="password" placeholder="Contraseña"/>
             <button [disabled]="formLogin.invalid" >INGRESAR</button>
         </form>
     </div>
-  </div>
-  <div>
-    <hr>
-    Raw: {{formLogin.value | json}}
   </div>

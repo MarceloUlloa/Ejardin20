@@ -28,7 +28,7 @@ export class SessionGuard implements CanActivate {
       }
       return token
     } catch (e) {
-      console.log('Algo sucedio')
+      console.log('Algo sucedio', e)
       return false
     }
   }
