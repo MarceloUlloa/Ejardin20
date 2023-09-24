@@ -1,4 +1,30 @@
 <app-sidebar></app-sidebar>
+<app-section-generic></app-section-generic>
+
 <div class="home-wrapper">
-    <router-outlet name="child">nbvnvcbn</router-outlet>
+    <div id="loading" class="loading">
+        <img src="..\..\assets\loading-loader.gif" alt="Cargando...">
+    </div>
+
+    <router-outlet name="child" class="texto">NIVELES</router-outlet>
+
+    <ul class="texto" *ngFor="let nivel of niveles" >
+        <div class="cuadrito">
+            <ng-container *ngTemplateOutlet="coverSection;context:{nivel:nivel}"></ng-container>
+        </div>
+    </ul>
 </div>
+
+<ng-template #coverSection let-nivel="nivel">
+
+    <div class="cover-section">
+        <img appImgBroken class="cover-track" [src]="nivel.varIMAGEN" [alt]="nivel.name">
+        <div class="cover-info">
+            <div class="name-track">{{nivel.varNOMBRENIVEL}}</div>
+            <div class="name-track-details">{{nivel.varNOMBRENIVEL2}}</div>
+            <div class="name-track-details">{{nivel.varNOMBRETIPONIVEL}}</div>
+        </div>
+        <button class="btn btn-outline-success"><i class="fa-solid fa-arrow-right"></i> Entrar</button>
+    </div>
+
+</ng-template>

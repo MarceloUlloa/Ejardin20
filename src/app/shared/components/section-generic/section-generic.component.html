@@ -1,0 +1,24 @@
+<header class="header">
+    <div class="logo">
+      <a routerLink="/">E-Jardín</a>
+    </div>
+    <div class="nav">
+      <button class="btn btn-outline-success"><i class="fa-sharp fa-regular fa-bell"></i> Notificaciones</button>
+      <button class="btn btn-outline-success"><i class="fa-solid fa-envelope"></i> Mensajes</button>
+      <div class="nombreusuario">{{FRONTusuarioactual}}</div>
+      <button class="btn btn-danger" (click)="openLogoutConfirmationModal()"><i class="fa-solid fa-right-from-bracket"></i> Salir</button>
+    </div>
+</header>
+<!-- Modal de confirmación de logout -->
+<ng-template #logoutConfirmationModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Confirmar Cierre de Sesión</h4>
+  </div>
+  <div class="modal-body">
+    ¿Estás seguro de que deseas cerrar sesión?
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss('cancel')">Cancelar</button>
+    <button type="button" class="btn btn-danger" (click)="confirmLogout()">Cerrar sesión</button>
+  </div>
+</ng-template>

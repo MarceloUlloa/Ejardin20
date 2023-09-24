@@ -17,8 +17,6 @@ export class LoginPageComponent implements OnInit {
   nombrePersona: string = ""
   
   constructor(private authService: AuthService, private renderer: Renderer2, private el: ElementRef, private cookie: CookieService, private router: Router){
-
-
   }
 
   ngOnInit(): void {
@@ -73,14 +71,14 @@ export class LoginPageComponent implements OnInit {
 
     this.authService.sendCredentials(user, password)
       .subscribe(responseOK => {
-
+        
       this.nombrePersona = responseOK.nombre
       this.openSession = true
       this.hideLoading();
       this.showVerified();
       this.cookie.set("token", responseOK.token, 4, '/')
 
-      interval(3000)
+      interval(1500)
       .pipe(take(1))
       .subscribe(() => {
         this.router.navigate(['/home'])

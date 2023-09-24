@@ -23,11 +23,11 @@ body {
     margin: 0;
     padding: 0;
     /*background-color: var(--color-3);*/
-    background-image: url('./assets/clouds.jpg');
-    background-size: cover;
+    /*background-image: url('./assets/clouds.jpg');*/
+    /*background-size: cover;*/
     font-family: var(--font-family-1);
     font-size: var(--font-size-1);
-    color: var(--color-4);
+    /*color: var(--color-4);*/
 }
 
 input,

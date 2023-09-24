@@ -1,19 +1,62 @@
-.section--generic {
-    margin-bottom: 2rem;
-}
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 50px; /* Ajusta la altura según tus necesidades */
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+  }
+  /* Agregar un margen superior al cuerpo principal para evitar que se solape con el encabezado */
+  body {
+    margin-top: 60px; /* Ajusta este valor según la altura de tu encabezado */
+  }
+  
+  .logo a {
+    text-decoration: none; /* Eliminar subrayado del enlace */
+    color: #fff; /* Color del texto del enlace */
+    font-size: 24px; /* Tamaño del texto del enlace */
+  }
+  
+  .nav a {
+    text-decoration: none;
+    color: #fff;
+  }
 
-.section--generic__player--zone .player--list {
-    display: grid;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    gap: 1.15rem;
-}
+  .nav {
+    display: flex;
+    font-size: smaller;
+    align-items: center;
+  }
 
-.section--generic__player--zone .player--list.card-small {
-    grid-template-columns: repeat(5, 1fr);
-}
+  .nav > div {
+    margin: 10px; /* Esto crea un margen de 10px alrededor de cada div */
+    padding: 10px;
+    border: 1px solid #000;
+  }
 
-.section--generic__player--zone .player--list.card-big {
-    grid-template-columns: repeat(6, minmax(100px, 1fr));
-}
+  .nav > button {
+    margin: 4px; /* Esto crea un margen de 10px alrededor de cada div */
+  }
+
+  .nombreusuario{
+    color:black;
+    padding: 5px;
+    border: solid 1px;
+    border-radius: 10px;
+    background-color: rgb(31, 198, 204);
+  }
+
+  .divnotificacion, .divmensaje {
+    color:black;
+    padding: 5px;
+    border: solid 1px;
+    border-radius: 10px;
+    background-color: white;
+
+  }

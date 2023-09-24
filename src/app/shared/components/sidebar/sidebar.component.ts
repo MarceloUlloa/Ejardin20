@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TokenService } from '@shared/services/token.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -7,6 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit{
+  FRONTinstitucion: undefined | string = "lololo";
 
   mainMenu: {
     defaultOptions: Array<any>, accessLink: Array<any>
@@ -14,16 +16,16 @@ export class SidebarComponent implements OnInit{
 
   customOptions: Array<any> = []
   
-  constructor(private router: Router) {
+  constructor(private router: Router, private tokenService: TokenService) {
     
   }
 
   ngOnInit(): void {
     this.mainMenu.defaultOptions = [
       {
-        name: 'Home',
+        name: 'Niveles',
         icon: 'uil uil-estate',
-        router: ['/', 'home']
+        router: ['/', '/home']
       },
       {
         name: 'Buscar',
@@ -38,49 +40,11 @@ export class SidebarComponent implements OnInit{
       }
     ]
 
-    this.mainMenu.accessLink = [
-      {
-        name: 'Crear lista',
-        icon: 'uil-plus-square'
-      },
-      {
-        name: 'Canciones que te gustanss',
-        icon: 'uil-heart-medical',
-        router: ['/', 'tracks'],
-      }
-    ]
 
-    this.customOptions = [
-      {
-        name: 'Mi lista º1',
-        router: ['/']
-      },
-      {
-        name: 'Mi lista º2',
-        router: ['/']
-      },
-      {
-        name: 'Mi lista º3',
-        router: ['/']
-      },
-      {
-        name: 'Mi lista º4',
-        router: ['/']
-      }
-    ]   
+    this.FRONTinstitucion = this.tokenService.leerTokenInstitucion()
+ 
   }
 
-  goTo($event: any): void {
-    this.router.navigate(['/', 'favorites'],{
-      queryParams:{
-        key1:'value5',
-        key2:'value2',
-        key3:'value3'
-      }
-    })
-    console.log($event)
-
-  }
 }
 
 

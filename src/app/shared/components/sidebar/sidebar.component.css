@@ -1,11 +1,12 @@
 .side-bar {
-    width: 15.5rem;
+    margin-top: 50px;
+    width: 17.5rem;
     height: 100vh;
     position: fixed;
     top: 0;
     left: 0;
     padding: .5rem 1rem;
-    background-color: red; 
+    background-color: rgba(20, 6, 6, 0.288); 
 }
 
 .side-bar__list {
@@ -47,4 +48,12 @@
 
 .side-bar__list li {
     cursor: pointer;
+}
+
+.marca {
+    display: flex;
+    align-items: center; /* Centra verticalmente los elementos hijos */   
+    color:black;
+    font-weight:bold;
+    
 }
