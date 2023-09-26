@@ -1,0 +1,29 @@
+<app-sidebar></app-sidebar>
+<app-section-generic></app-section-generic>
+
+<div class="home-wrapper">
+    <table class="table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>NOMBRES</th>
+            <th>APELLIDO 1</th>
+            <th>APELLIDO 2</th>
+            <th>Fecha de Nacimiento</th>
+            <th>Género</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of personasnivel" >
+            <td style="text-align: center"><img [src]="item.FOTO" class="foto"></td>
+            <td>{{ item.NOMBRES }}</td>
+            <td>{{ item.APELLIDO1 }}</td>
+            <td>{{ item.APELLIDO2 }}</td>
+            <td>{{ item.FECHANACIMIENTO }}</td>
+            <td>{{ item.GENERO }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+</div>
+

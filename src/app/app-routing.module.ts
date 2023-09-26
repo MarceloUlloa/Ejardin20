@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SessionGuard } from '@core/guards/session.guard';
 import { LoginPageComponent } from '@modules/auth/pages/login-page/login-page.component';
 import { HomepageComponent } from '@modules/home/pages/homepage/homepage.component';
+import { NivelesComponent } from '@modules/niveles/pages/niveles/niveles.component';
  
 const routes: Routes = [
   {
@@ -15,7 +16,14 @@ const routes: Routes = [
     component: HomepageComponent,
     loadChildren: () => import(`./modules/home/home.module`).then(m => m.HomeModule),
     canActivate:[SessionGuard]
-  }
+  },
+  {
+    path: 'niveles',
+    component: NivelesComponent,
+    loadChildren: () => import(`./modules/niveles/niveles.module`).then(m => m.NivelesModule),
+    canActivate:[SessionGuard]
+  },
+  { path: 'niveles/:id', component: NivelesComponent } 
 ];
 
 @NgModule({

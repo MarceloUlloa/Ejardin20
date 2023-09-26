@@ -34,7 +34,11 @@ export class HomepageComponent implements OnInit {
       this.hideLoading();
     }
     )
-    
+  }
+
+  RedirectNiveles(id: string){
+    console.log("Redireccionado...")
+    this.router.navigate(['/niveles/' + id])
   }
 
 

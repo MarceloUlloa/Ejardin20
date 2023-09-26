@@ -56,3 +56,24 @@ display: flex;
     width: 80%;
   }
 
+.table {
+width: 100%;
+border-collapse: collapse;
+}
+
+.table th, .table td {
+border: 1px solid #ccc;
+padding: 8px;
+text-align: left;
+}
+
+.foto {
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.columnafoto{
+    text-align: center;
+}
