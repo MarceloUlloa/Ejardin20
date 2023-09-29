@@ -1,29 +1,111 @@
 <app-sidebar></app-sidebar>
 <app-section-generic></app-section-generic>
 
+
+
 <div class="home-wrapper">
-    <table class="table">
-        <thead>
-          <tr>
-            <th></th>
-            <th>NOMBRES</th>
-            <th>APELLIDO 1</th>
-            <th>APELLIDO 2</th>
-            <th>Fecha de Nacimiento</th>
-            <th>Género</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of personasnivel" >
-            <td style="text-align: center"><img [src]="item.FOTO" class="foto"></td>
-            <td>{{ item.NOMBRES }}</td>
-            <td>{{ item.APELLIDO1 }}</td>
-            <td>{{ item.APELLIDO2 }}</td>
-            <td>{{ item.FECHANACIMIENTO }}</td>
-            <td>{{ item.GENERO }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div id="loading" class="loading">
+      <img src="..\..\assets\loading-loader.gif" alt="Cargando...">
+    </div>  
+
+    <div class="divwindow">
+      <div class="divcabecera">
+          <div class="divfoto"><img [src]="this.imagennivel" class="fotochica"></div>
+          <div class="divinterno"> 
+            <div class="tituloheaders"><i class="fa-solid fa-users-viewfinder"></i> NIVEL {{ this.nombrenivel1 }}</div>
+            <div class="divinterno2">{{ this.nombrenivel2 }}</div>
+            <div><i class="fa-solid fa-children"></i> Alumnos: {{ this.numeropersonas }}</div>
+          </div>
+          
+          <div class="divinterno3">
+            <div class="tituloheaders"><i class="fa-solid fa-user-graduate"></i> Educadora</div>
+            <td *ngIf="this.imagendocente2!='undefined'"><img [src]="this.imagendocente1" class="foto"></td>
+            <td>{{this.nombredocente1}}</td>
+            <td><button class="btn btn-success btn-sm" ><i class="fa-solid fa-circle-info"></i> Ficha </button></td>
+          </div>
+          <div class="divinterno3">
+            <div class="tituloheaders"><i class="fa-solid fa-user-graduate"></i> Asistente</div>
+            <td *ngIf="this.imagendocente2!='undefined'"><img [src]="this.imagendocente2" class="foto"></td>
+            <td>{{ this.nombredocente2 }}</td>
+            <td><button class="btn btn-success btn-sm"><i class="fa-solid fa-circle-info"></i> Ficha </button></td>
+          </div>          
+      </div>
+      <div class="divcuerpo">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th></th>
+              <th>NOMBRES</th>
+              <th>APELLIDO 1</th>
+              <th>APELLIDO 2</th>
+              <th>EDAD</th>
+              <th>Género</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of personasnivel" >
+              <td>{{ item.INFOADICIONAL1 }}</td>
+              <td style="text-align: center"><img [src]="item.FOTO" class="foto"></td>
+              <td>{{ item.NOMBRES }}</td>
+              <td>{{ item.APELLIDO1 }}</td>
+              <td>{{ item.APELLIDO2 }}</td>
+              <td>{{ item.FECHANACIMIENTO }}</td>
+              <td>{{ item.GENERO }}</td>
+              <td><button class="btn btn-success btn-sm" (click)="openFicha(item.idPERSONA)"><i class="fa-solid fa-circle-info"></i> Ficha </button></td>
+            </tr>
+          </tbody>
+        </table>
+  
+      </div>
+    </div>
+
 
 </div>
 
+
+<!-- Modal de confirmación de logout -->
+<ng-template #FichaModal class="mi-modal">
+  <div class="mi-modal">
+    <div class="modal-header2">
+      <h4 class="modal-title"><i class="fa fa-child" aria-hidden="true"></i> Ficha del Alumno</h4>
+    </div>
+    <div><hr></div>    
+    <div class="modal-body2">
+      <div class="ficha-alumno">
+        <img src="ruta-de-la-imagen-del-alumno.jpg" alt="Foto del alumno">
+        <div class="nombre">Nombre del Alumno</div>
+        <div class="fecha-nacimiento">Fecha de Nacimiento: 01 de Enero de 2000</div>
+
+        <!-- Sección de Datos Personales -->
+        <div class="seccion">
+            <div class="cuadro">
+                <h3>Datos Personales</h3>
+                <p>Edad: 23 años</p>
+                <p>Género: Masculino</p>
+            </div>
+        </div>
+
+        <!-- Sección de Observaciones -->
+        <div class="seccion">
+            <div class="cuadro">
+                <h3>Observaciones</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor lorem a urna placerat bibendum.</p>
+            </div>
+        </div>
+
+        <!-- Sección de Avances -->
+        <div class="seccion">
+            <div class="cuadro">
+                <h3>Avances</h3>
+                <p>Avance 1: Lorem ipsum dolor sit amet.</p>
+                <p>Avance 2: Consectetur adipiscing elit.</p>
+            </div>
+        </div>
+    </div>
+    <div><hr></div> 
+    </div>
+  </div>
+  <!--<div [innerHTML]="contenidoHTML"></div>-->
+</ng-template>

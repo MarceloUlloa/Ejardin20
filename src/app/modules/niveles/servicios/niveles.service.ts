@@ -10,7 +10,11 @@ export class NivelesService {
   constructor(private http: HttpClient) { }
 
   listPersonasNivel(idnivel: number): Observable<any>{
-    return this.http.get(`/api/niveles/` + idnivel.toString())
+    return this.http.get(`/api/niveles/personas/` + idnivel.toString())
+  }
+
+  getDetallesNivel(idnivel: number): Observable<any>{
+    return this.http.get(`/api/niveles/nivel/` + idnivel.toString())
   }
   
 }
