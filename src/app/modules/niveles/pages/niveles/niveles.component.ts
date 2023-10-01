@@ -7,11 +7,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   selector: 'app-niveles',
   templateUrl: './niveles.component.html',
   styleUrls: ['./niveles.component.css'],
-  template: `
-    <div #FichaModal>
-      <app-modal-content [data]="parametro">ggfdhbgf</app-modal-content>
-    </div>
-  `,
 })
 
 
@@ -20,6 +15,9 @@ export class NivelesComponent  implements OnInit{
   personasnivel: any[] = [];
   docentenivel1: any[] = [];
   docentenivel2: any[] = [];
+  alumnosnivel: any[] = [];
+
+  personaficha: any[] = [];
   nivel: any[] = [];
   nombrenivel1: string = "";
   nombrenivel2: string = "";
@@ -39,12 +37,38 @@ export class NivelesComponent  implements OnInit{
   
   constructor(private nivelesService: NivelesService, private route: ActivatedRoute, private renderer: Renderer2, private el: ElementRef, private modalService: NgbModal){
   }
+
+  hayAlumnos: boolean = true;
+  hayDocentes: boolean = false;
+  hayAsistentes: boolean = false;
+
+  cantAlumnos: number = 0
+  cantDocentes: number = 0
+  cantAsistentes: number = 0
+
   modalAbierto: boolean = false;
   modalData: any;
-  contenidoHTML:string = ""
+
+  contenidoHTML_Nombre:string = ""
+  contenidoHTML_Foto:string = ""
+  contenidoHTML_FechaNacimiento:string = ""
+  contenidoHTML_Edad:string = ""
+  contenidoHTML_Genero:string = ""
 
   openFicha(id: string) {
-    this.contenidoHTML = '<h1>hola' + id +  '</h1>'
+
+    this.personaficha = this.alumnosnivel.filter(item => item.idPERSONA === id)
+
+    console.log(this.personasnivel)
+
+    this.contenidoHTML_Nombre = this.personaficha[0].NOMBRES + " " + this.personaficha[0].APELLIDO1 + " " + this.personaficha[0].APELLIDO2
+    this.contenidoHTML_Foto = this.personaficha[0].FOTO
+
+    const nacimiento: any[] = this.personaficha[0].FECHANACIMIENTO.split(",")
+    this.contenidoHTML_FechaNacimiento = "Fecha de Nacimiento: " +  nacimiento[0] 
+    this.contenidoHTML_Edad = "Edad: " +  nacimiento[1] 
+    this.contenidoHTML_Genero = "Género: " +  this.personaficha[0].GENERO
+
     this.modalService.open(this.modalOpenFicha, { windowClass: 'mi-modal', modalDialogClass : 'mi-modal' }); // Abre el modal
   }
 
@@ -92,6 +116,11 @@ export class NivelesComponent  implements OnInit{
     const loadingElement = this.el.nativeElement.querySelector('#loading');
     this.renderer.setStyle(loadingElement, 'display', 'none');
   }
+
+  extraeEdad(fecha: string){
+    const cadenanacimiento: string[] = fecha.split(",")
+    return cadenanacimiento[cadenanacimiento.length-1]
+  }
   
   ngOnInit(): void {
     this.showLoading();
@@ -111,22 +140,37 @@ export class NivelesComponent  implements OnInit{
 
     this.nivelesService.listPersonasNivel(this.id)
     .subscribe((response: any[]) => {
-      this.personasnivel = response.filter(item => item.TIPOPERSONA === 21)
-
-      this.personasnivel.forEach(element => {element.FECHANACIMIENTO = this.calcularEdad(element.FECHANACIMIENTO)
+      this.alumnosnivel = response.filter(item => item.TIPOPERSONA === 21)
+      this.alumnosnivel.forEach(element => {element.FECHANACIMIENTO = this.nivelesService.formatearFecha(element.FECHANACIMIENTO) + "," + this.calcularEdad(element.FECHANACIMIENTO) 
       });
 
+      console.log("respuesta:" + response.length.toString())
 
-
-      this.docentenivel1 = response.filter(item => item.TIPOPERSONA === 11); 
-      
-      this.imagendocente1 = this.docentenivel1[0].FOTO
-      this.nombredocente1 = this.docentenivel1[0].NOMBRES + " " + this.docentenivel1[0].APELLIDO1 + " " + this.docentenivel1[0].APELLIDO2
-
-      this.docentenivel2 = response.filter(item => item.TIPOPERSONA === 12);
-      if (this.docentenivel2.length != 0)
+      if (response.length>0)
       {
-      this.imagendocente2 = this.docentenivel2[0].FOTO
+        this.docentenivel1 = response.filter(item => item.TIPOPERSONA === 11); 
+        this.cantDocentes = this.docentenivel1.length
+        if (this.cantDocentes > 0) this.hayDocentes = true
+
+        this.docentenivel2 = response.filter(item => item.TIPOPERSONA === 12);
+        this.cantAsistentes = this.docentenivel2.length
+        if (this.cantAsistentes > 0) this.hayAsistentes = true
+
+        this.cantAlumnos = this.alumnosnivel.length
+
+      }
+
+      if (this.hayDocentes){
+        this.imagendocente1 = this.docentenivel1[0].FOTO
+        this.nombredocente1 = this.docentenivel1[0].NOMBRES + " " + this.docentenivel1[0].APELLIDO1 + " " + this.docentenivel1[0].APELLIDO2
+      }
+      else
+      {
+        this.nombredocente1 = "Sin docente asociado."
+      }
+
+      if (this.hayAsistentes){
+        this.imagendocente2 = this.docentenivel2[0].FOTO
 
         if (this.docentenivel2[0].NOMBRES != null)
         {
@@ -140,12 +184,20 @@ export class NivelesComponent  implements OnInit{
         {
           this.nombredocente2 += this.docentenivel2[0].APELLIDO2 + " "
         }                
-      }      
+      }
       else
       {
-        this.nombredocente2 = "Sin docente asociado"
-      }
+        this.nombredocente2 = "Sin docente asociado."
+      }      
 
+      if (this.cantAlumnos>0)
+      {
+        this.hayAlumnos = true
+      }
+      else
+      {
+        this.hayAlumnos = false
+      }
       this.numeropersonas = this.personasnivel.length;
       this.hideLoading();
     }

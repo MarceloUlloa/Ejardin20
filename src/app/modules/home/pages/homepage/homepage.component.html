@@ -6,25 +6,38 @@
         <img src="..\..\assets\loading-loader.gif" alt="Cargando...">
     </div>
 
-    <router-outlet name="child" class="texto">NIVELES</router-outlet>
+    <router-outlet name="child" class="texto"></router-outlet>
 
-    <ul class="texto" *ngFor="let nivel of niveles" >
-        <div class="cuadrito">
-            <ng-container *ngTemplateOutlet="coverSection;context:{nivel:nivel}"></ng-container>
-        </div>
-    </ul>
+
+            <div class="divwindow">
+                <div class="divcabecera">
+                    Niveles
+                </div>
+                <div class="divcuerpo">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>NIVEL</th>
+                            <th>DESCRIPCIÓN</th>
+                            <th>TIPO</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let item of niveles" >
+                            <td><img appImgBroken class="foto" [src]="item.varIMAGEN" [alt]="item.name"></td>
+                            <td>{{ item.varNOMBRENIVEL }}</td> 
+                            <td>{{ item.varNOMBRENIVEL2 }}</td> 
+                            <td>{{ item.varNOMBRETIPONIVEL }}</td> 
+                            <td><button class="btn btn-outline-success" (click)="RedirectNiveles(item.idNIVEL)"><i class="fa-solid fa-arrow-right"></i> Entrar</button></td>
+                        </tr>
+                        </tbody>
+                    </table>          
+                </div>
+            
+            </div>
+
+
 </div>
 
-<ng-template #coverSection let-nivel="nivel">
-
-    <div class="cover-section">
-        <img appImgBroken class="cover-track" [src]="nivel.varIMAGEN" [alt]="nivel.name">
-        <div class="cover-info">
-            <div class="name-track">{{nivel.varNOMBRENIVEL}}</div>
-            <div class="name-track-details">{{nivel.varNOMBRENIVEL2}}</div>
-            <div class="name-track-details">{{nivel.varNOMBRETIPONIVEL}}</div>
-        </div>
-        <button class="btn btn-outline-success" (click)="RedirectNiveles(nivel.idNIVEL)"><i class="fa-solid fa-arrow-right"></i> Entrar</button>
-    </div>
-
-</ng-template>
