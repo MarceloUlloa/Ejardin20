@@ -260,3 +260,7 @@ text-align: center;
     /* Otros estilos personalizados */
   }
 
+.pointermano
+{
+    cursor:pointer;
+}

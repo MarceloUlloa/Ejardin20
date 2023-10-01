@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NivelesService } from '@modules/niveles/servicios/niveles.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -16,6 +16,7 @@ export class NivelesComponent  implements OnInit{
   docentenivel1: any[] = [];
   docentenivel2: any[] = [];
   alumnosnivel: any[] = [];
+  alumnosnivel_beta: any[] = [];
 
   personaficha: any[] = [];
   nivel: any[] = [];
@@ -31,11 +32,15 @@ export class NivelesComponent  implements OnInit{
   imagendocente2: string = "";
   nombredocente2: string = "";
 
+  sentidoorden:boolean = true;
+
   id = 0
 
   @ViewChild('FichaModal') modalOpenFicha: any;
   
-  constructor(private nivelesService: NivelesService, private route: ActivatedRoute, private renderer: Renderer2, private el: ElementRef, private modalService: NgbModal){
+  constructor(private nivelesService: NivelesService, private route: ActivatedRoute, 
+    private renderer: Renderer2, private el: ElementRef, private modalService: NgbModal
+    ,private cdr: ChangeDetectorRef){
   }
 
   hayAlumnos: boolean = true;
@@ -55,6 +60,41 @@ export class NivelesComponent  implements OnInit{
   contenidoHTML_Edad:string = ""
   contenidoHTML_Genero:string = ""
 
+  ordena(columna: string) {
+    if (this.hayAlumnos){
+      this.sentidoorden = !this.sentidoorden
+
+      this.alumnosnivel.sort((a, b) => {
+        const apellidoA = a.APELLIDO2 ? a.APELLIDO2.toLowerCase() : '';
+        const apellidoB = b.APELLIDO2 ? b.APELLIDO2.toLowerCase() : '';
+      
+        if (this.sentidoorden)
+        {
+        if (apellidoA < apellidoB) {
+          return -1; 
+        }
+        if (apellidoA > apellidoB) {
+          return 1; 
+        }
+        return 0;
+        }
+        else
+        {
+          if (apellidoA > apellidoB) {
+            return -1; 
+          }
+          if (apellidoA < apellidoB) {
+            return 1; 
+          }
+          return 0;          
+        }
+        
+      });
+      
+      this.cdr.detectChanges();
+      
+    }
+  }
   openFicha(id: string) {
 
     this.personaficha = this.alumnosnivel.filter(item => item.idPERSONA === id)
@@ -140,66 +180,65 @@ export class NivelesComponent  implements OnInit{
 
     this.nivelesService.listPersonasNivel(this.id)
     .subscribe((response: any[]) => {
-      this.alumnosnivel = response.filter(item => item.TIPOPERSONA === 21)
-      this.alumnosnivel.forEach(element => {element.FECHANACIMIENTO = this.nivelesService.formatearFecha(element.FECHANACIMIENTO) + "," + this.calcularEdad(element.FECHANACIMIENTO) 
-      });
+    this.alumnosnivel = response.filter(item => item.TIPOPERSONA === 21)
+    this.alumnosnivel.forEach(element => {element.FECHANACIMIENTO = this.nivelesService.formatearFecha(element.FECHANACIMIENTO) + "," + this.calcularEdad(element.FECHANACIMIENTO) 
+    });
 
-      console.log("respuesta:" + response.length.toString())
+    if (response.length>0)
+    {
+      this.docentenivel1 = response.filter(item => item.TIPOPERSONA === 11); 
+      this.cantDocentes = this.docentenivel1.length
+      if (this.cantDocentes > 0) this.hayDocentes = true
 
-      if (response.length>0)
+      this.docentenivel2 = response.filter(item => item.TIPOPERSONA === 12);
+      this.cantAsistentes = this.docentenivel2.length
+      if (this.cantAsistentes > 0) this.hayAsistentes = true
+
+      this.cantAlumnos = this.alumnosnivel.length
+
+    }
+
+    if (this.hayDocentes){
+      this.imagendocente1 = this.docentenivel1[0].FOTO
+      this.nombredocente1 = this.docentenivel1[0].NOMBRES + " " + this.docentenivel1[0].APELLIDO1 + " " + this.docentenivel1[0].APELLIDO2
+    }
+    else
+    {
+      this.nombredocente1 = "Sin docente asociado."
+    }
+
+    if (this.hayAsistentes){
+      this.imagendocente2 = this.docentenivel2[0].FOTO
+
+      if (this.docentenivel2[0].NOMBRES != null)
       {
-        this.docentenivel1 = response.filter(item => item.TIPOPERSONA === 11); 
-        this.cantDocentes = this.docentenivel1.length
-        if (this.cantDocentes > 0) this.hayDocentes = true
-
-        this.docentenivel2 = response.filter(item => item.TIPOPERSONA === 12);
-        this.cantAsistentes = this.docentenivel2.length
-        if (this.cantAsistentes > 0) this.hayAsistentes = true
-
-        this.cantAlumnos = this.alumnosnivel.length
-
+        this.nombredocente2 += this.docentenivel2[0].NOMBRES + " "
       }
-
-      if (this.hayDocentes){
-        this.imagendocente1 = this.docentenivel1[0].FOTO
-        this.nombredocente1 = this.docentenivel1[0].NOMBRES + " " + this.docentenivel1[0].APELLIDO1 + " " + this.docentenivel1[0].APELLIDO2
-      }
-      else
+      if (this.docentenivel2[0].APELLIDO1 != null)
       {
-        this.nombredocente1 = "Sin docente asociado."
+        this.nombredocente2 += this.docentenivel2[0].APELLIDO1 + " "
       }
-
-      if (this.hayAsistentes){
-        this.imagendocente2 = this.docentenivel2[0].FOTO
-
-        if (this.docentenivel2[0].NOMBRES != null)
-        {
-          this.nombredocente2 += this.docentenivel2[0].NOMBRES + " "
-        }
-        if (this.docentenivel2[0].APELLIDO1 != null)
-        {
-          this.nombredocente2 += this.docentenivel2[0].APELLIDO1 + " "
-        }
-        if (this.docentenivel2[0].APELLIDO2 != null)
-        {
-          this.nombredocente2 += this.docentenivel2[0].APELLIDO2 + " "
-        }                
-      }
-      else
+      if (this.docentenivel2[0].APELLIDO2 != null)
       {
-        this.nombredocente2 = "Sin docente asociado."
-      }      
+        this.nombredocente2 += this.docentenivel2[0].APELLIDO2 + " "
+      }                
+    }
+    else
+    {
+      this.nombredocente2 = "Sin docente asociado."
+    }      
 
-      if (this.cantAlumnos>0)
-      {
-        this.hayAlumnos = true
-      }
-      else
-      {
-        this.hayAlumnos = false
-      }
-      this.numeropersonas = this.personasnivel.length;
-      this.hideLoading();
+    if (this.cantAlumnos>0)
+    {
+      this.hayAlumnos = true
+    }
+    else
+    {
+      this.hayAlumnos = false
+    }
+    this.numeropersonas = this.personasnivel.length;
+    this.hideLoading();
+    console.log(this.alumnosnivel )
     }
 
 

@@ -23,11 +23,11 @@
           <div class="divdocentes">
             <div class="tituloheaders"><i class="fa-solid fa-user-graduate"></i> Educadora</div>
             <div class="row">
-                <div class="divdocentesinterno col-5">
+                <div class="divdocentesinterno col-6">
                   <div *ngIf="this.imagendocente1!='undefined'"><img [src]="this.imagendocente1" class="foto"></div>
                   <div>{{this.nombredocente1}}</div>
                 </div>
-                <div class="col-7">
+                <div class="col-6">
                   <div *ngIf="this.hayDocentes"><button class="btn btn-success btn-sm" ><i class="fa-solid fa-circle-info"></i> Ficha </button></div>
                 </div>
             </div>
@@ -36,11 +36,11 @@
           <div class="divdocentes">
             <div class="tituloheaders"><i class="fa-solid fa-user-graduate"></i> Asistente</div>
             <div class="row">
-                <div class="divdocentesinterno col-5">
+                <div class="divdocentesinterno col-6">
                   <div *ngIf="this.imagendocente2!='undefined'"><img [src]="this.imagendocente2" class="foto"></div>
                   <div>{{this.nombredocente2}}</div>
                 </div>
-                <div class="col-7">
+                <div class="col-6">
                   <div *ngIf="this.hayDocentes"><button class="btn btn-success btn-sm" ><i class="fa-solid fa-circle-info"></i> Ficha </button></div>
                 </div>
             </div>
@@ -52,7 +52,7 @@
             <tr>
               <th>#</th>
               <th></th>
-              <th>NOMBRES</th>
+              <th class="pointermano" (click)="ordena('NOMBRES')">NOMBRES</th>
               <th>APELLIDO 1</th>
               <th>APELLIDO 2</th>
               <th>EDAD</th>
