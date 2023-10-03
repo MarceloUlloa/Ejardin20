@@ -32,7 +32,8 @@ export class NivelesComponent  implements OnInit{
   imagendocente2: string = "";
   nombredocente2: string = "";
 
-  sentidoorden:boolean = true;
+  sentidoorden:string = 'asc';
+  columnaactualorden:string = "";
 
   id = 0
 
@@ -60,37 +61,46 @@ export class NivelesComponent  implements OnInit{
   contenidoHTML_Edad:string = ""
   contenidoHTML_Genero:string = ""
 
+
+ 
+    transform(value: Array<any>, args: string | null = null, sort: string = 'asc'): any[] {
+      if (args === null) {
+        return value
+      } else {
+        const tmpList = value.sort((a, b) => {
+          if (a[args] < b[args]) {
+            return -1
+          }
+          else if (a[args] === b[args]) {
+            return 0;
+          }
+          else if (a[args] > b[args]) {
+            return 1;
+          }
+          return 1
+        });
+  
+
+
+        return (sort === 'asc') ? tmpList : tmpList.reverse()
+      }
+    }
+
+
   ordena(columna: string) {
     if (this.hayAlumnos){
-      this.sentidoorden = !this.sentidoorden
+ 
+      this.alumnosnivel = this.transform(this.alumnosnivel, columna, this.sentidoorden);
+      
+      if (this.sentidoorden == 'asc')
+        this.sentidoorden = 'desc' ;
+      else
+        this.sentidoorden = 'asc' ;
 
-      this.alumnosnivel.sort((a, b) => {
-        const apellidoA = a.APELLIDO2 ? a.APELLIDO2.toLowerCase() : '';
-        const apellidoB = b.APELLIDO2 ? b.APELLIDO2.toLowerCase() : '';
-      
-        if (this.sentidoorden)
-        {
-        if (apellidoA < apellidoB) {
-          return -1; 
-        }
-        if (apellidoA > apellidoB) {
-          return 1; 
-        }
-        return 0;
-        }
-        else
-        {
-          if (apellidoA > apellidoB) {
-            return -1; 
-          }
-          if (apellidoA < apellidoB) {
-            return 1; 
-          }
-          return 0;          
-        }
-        
-      });
-      
+      this.columnaactualorden = columna
+
+      console.log(this.columnaactualorden)
+
       this.cdr.detectChanges();
       
     }
@@ -145,13 +155,11 @@ export class NivelesComponent  implements OnInit{
     }
   }
   
-      // Muestra el elemento de carga
   showLoading() {
     const loadingElement = this.el.nativeElement.querySelector('#loading');
     this.renderer.setStyle(loadingElement, 'display', 'block');
   }
 
-  // Oculta el elemento de carga
   hideLoading() {
     const loadingElement = this.el.nativeElement.querySelector('#loading');
     this.renderer.setStyle(loadingElement, 'display', 'none');
@@ -182,6 +190,9 @@ export class NivelesComponent  implements OnInit{
     .subscribe((response: any[]) => {
     this.alumnosnivel = response.filter(item => item.TIPOPERSONA === 21)
     this.alumnosnivel.forEach(element => {element.FECHANACIMIENTO = this.nivelesService.formatearFecha(element.FECHANACIMIENTO) + "," + this.calcularEdad(element.FECHANACIMIENTO) 
+    });
+
+    this.alumnosnivel.forEach(element => {element.INFOADICIONAL1 = element.INFOADICIONAL1.padStart(2,"0")
     });
 
     if (response.length>0)

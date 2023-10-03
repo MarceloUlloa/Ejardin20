@@ -50,26 +50,26 @@
         <table class="table">
           <thead>
             <tr>
-              <th>#</th>
-              <th></th>
-              <th class="pointermano" (click)="ordena('NOMBRES')">NOMBRES</th>
-              <th>APELLIDO 1</th>
-              <th>APELLIDO 2</th>
-              <th>EDAD</th>
-              <th>Género</th>
-              <th></th>
+              <th class="pointermano thredondeado" (click)="ordena('INFOADICIONAL1')">N° <i *ngIf="this.sentidoorden == 'asc' && this.columnaactualorden == 'INFOADICIONAL1'" class="fa-solid fa-arrow-down" style="color: yellow;"></i><i *ngIf="this.sentidoorden == 'desc' && this.columnaactualorden == 'INFOADICIONAL1'" class="fa-solid fa-arrow-up" style="color: yellow;"></i></th>
+              <th class="thredondeado">FOTO</th>
+              <th class="pointermano thredondeado" (click)="ordena('NOMBRES')">NOMBRES <i *ngIf="this.sentidoorden == 'asc' && this.columnaactualorden == 'NOMBRES'" class="fa-solid fa-arrow-down" style="color: yellow;"></i><i *ngIf="this.sentidoorden == 'desc' && this.columnaactualorden == 'NOMBRES'" class="fa-solid fa-arrow-up" style="color: yellow;"></i></th>
+              <th class="pointermano thredondeado" (click)="ordena('APELLIDO1')">APELLIDO 1 <i *ngIf="this.sentidoorden == 'asc' && this.columnaactualorden == 'APELLIDO1'" class="fa-solid fa-arrow-down" style="color: yellow;"></i><i *ngIf="this.sentidoorden == 'desc' && this.columnaactualorden == 'APELLIDO1'" class="fa-solid fa-arrow-up" style="color: yellow;"></i></th>
+              <th class="pointermano thredondeado">APELLIDO 2</th>
+              <th class="pointermano thredondeado">EDAD</th>
+              <th class="pointermano thredondeado">Género</th>
+              <th class="pointermano thredondeado"></th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of alumnosnivel" >
-              <td>{{ item.INFOADICIONAL1 }}</td>
-              <td style="text-align: center"><img [src]="item.FOTO" class="foto"></td>
-              <td>{{ item.NOMBRES }}</td>
-              <td>{{ item.APELLIDO1 }}</td>
-              <td>{{ item.APELLIDO2 }}</td>
-              <td>{{ this.extraeEdad(item.FECHANACIMIENTO) }}</td>
-              <td>{{ item.GENERO }}</td>
-              <td><button class="btn btn-success btn-sm" (click)="openFicha(item.idPERSONA)"><i class="fa-solid fa-circle-info"></i> Ficha </button></td>
+            <tr *ngFor="let item of alumnosnivel" (click)="openFicha(item.idPERSONA)" class="pointermano">
+              <td class="tdalineavertical">{{ item.INFOADICIONAL1 }}</td>
+              <td class="tdalineavertical" style="text-align: center"><img [src]="item.FOTO" class="foto"></td>
+              <td class="tdalineavertical">{{ item.NOMBRES }}</td>
+              <td class="tdalineavertical">{{ item.APELLIDO1 }}</td>
+              <td class="tdalineavertical">{{ item.APELLIDO2 }}</td>
+              <td class="tdalineavertical">{{ this.extraeEdad(item.FECHANACIMIENTO) }}</td>
+              <td class="tdalineavertical">{{ item.GENERO }}</td>
+              <td class="tdalineavertical"><!--<button class="btn btn-success btn-sm" (click)="openFicha(item.idPERSONA)"><i class="fa-solid fa-circle-info"></i> Ficha </button>--></td>
             </tr>
           </tbody>
         </table>

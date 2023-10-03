@@ -264,3 +264,11 @@ text-align: center;
 {
     cursor:pointer;
 }
+
+.thredondeado{
+    border-radius: 10px;
+}
+
+.tdalineavertical{
+    vertical-align: middle !important;
+}
