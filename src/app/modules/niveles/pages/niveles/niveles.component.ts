@@ -28,12 +28,16 @@ export class NivelesComponent  implements OnInit{
 
   imagendocente1: string = "";
   nombredocente1: string = "";
+  iddocente:string = "";
+  iddocente2:string = "";
 
   imagendocente2: string = "";
   nombredocente2: string = "";
 
   sentidoorden:string = 'asc';
   columnaactualorden:string = "";
+
+  tituloficha:string = ""
 
   id = 0
 
@@ -63,63 +67,88 @@ export class NivelesComponent  implements OnInit{
 
 
  
-    transform(value: Array<any>, args: string | null = null, sort: string = 'asc'): any[] {
-      if (args === null) {
-        return value
-      } else {
-        const tmpList = value.sort((a, b) => {
-          if (a[args] < b[args]) {
-            return -1
-          }
-          else if (a[args] === b[args]) {
-            return 0;
-          }
-          else if (a[args] > b[args]) {
-            return 1;
-          }
-          return 1
-        });
-  
-
-
-        return (sort === 'asc') ? tmpList : tmpList.reverse()
-      }
+  transform(value: Array<any>, args: string | null = null, sort: string = 'asc'): any[] {
+    if (args === null) {
+      return value
+    } else {
+      const tmpList = value.sort((a, b) => {
+        if (a[args] < b[args]) {
+          return -1
+        }
+        else if (a[args] === b[args]) {
+          return 0;
+        }
+        else if (a[args] > b[args]) {
+          return 1;
+        }
+        return 1
+      });
+      return (sort === 'asc') ? tmpList : tmpList.reverse()
+      
     }
+  }
 
 
   ordena(columna: string) {
     if (this.hayAlumnos){
  
       this.alumnosnivel = this.transform(this.alumnosnivel, columna, this.sentidoorden);
-      
       if (this.sentidoorden == 'asc')
         this.sentidoorden = 'desc' ;
       else
         this.sentidoorden = 'asc' ;
 
       this.columnaactualorden = columna
-
-      console.log(this.columnaactualorden)
-
       this.cdr.detectChanges();
       
     }
   }
-  openFicha(id: string) {
+  
+  openFicha(id: string, tipo: string) {
 
-    this.personaficha = this.alumnosnivel.filter(item => item.idPERSONA === id)
-
-    console.log(this.personasnivel)
+    if (tipo == '1')
+    {
+      this.personaficha = this.alumnosnivel.filter(item => item.idPERSONA === id)
+      this.tituloficha = "Ficha del Alumno"
+    }
+    else if (tipo == '2')
+    {
+      this.personaficha = this.docentenivel1
+      this.tituloficha = "Ficha del Docente"
+    }
+    else if (tipo == '3')
+    {
+       this.personaficha = this.docentenivel2
+      this.tituloficha = "Ficha del Docente"
+    }
 
     this.contenidoHTML_Nombre = this.personaficha[0].NOMBRES + " " + this.personaficha[0].APELLIDO1 + " " + this.personaficha[0].APELLIDO2
     this.contenidoHTML_Foto = this.personaficha[0].FOTO
 
     const nacimiento: any[] = this.personaficha[0].FECHANACIMIENTO.split(",")
-    this.contenidoHTML_FechaNacimiento = "Fecha de Nacimiento: " +  nacimiento[0] 
-    this.contenidoHTML_Edad = "Edad: " +  nacimiento[1] 
+    this.contenidoHTML_FechaNacimiento = "Fecha de Nacimiento: " +  nacimiento[1] 
+    this.contenidoHTML_Edad = "Edad: " +  nacimiento[2] 
     this.contenidoHTML_Genero = "Género: " +  this.personaficha[0].GENERO
 
     this.modalService.open(this.modalOpenFicha, { windowClass: 'mi-modal', modalDialogClass : 'mi-modal' }); // Abre el modal
+  }
+
+  formateanombre(NOMBRES: string, APELLIDO1: string, APELLIDO2: string): string{
+    let NOMBRECOMPLETO = ""
+
+    if (NOMBRES != null)
+    {
+      NOMBRECOMPLETO += NOMBRES + " "
+    }
+    if (APELLIDO1 != null)
+    {
+      NOMBRECOMPLETO += APELLIDO1 + " "
+    }
+    if (APELLIDO2 != null)
+    {
+      NOMBRECOMPLETO += APELLIDO2 + " "
+    }    
+    return NOMBRECOMPLETO
   }
 
   calcularEdad(fechaNacimiento: string): string {
@@ -189,20 +218,23 @@ export class NivelesComponent  implements OnInit{
     this.nivelesService.listPersonasNivel(this.id)
     .subscribe((response: any[]) => {
     this.alumnosnivel = response.filter(item => item.TIPOPERSONA === 21)
-    this.alumnosnivel.forEach(element => {element.FECHANACIMIENTO = this.nivelesService.formatearFecha(element.FECHANACIMIENTO) + "," + this.calcularEdad(element.FECHANACIMIENTO) 
-    });
-
+    this.alumnosnivel.forEach(element => {element.FECHANACIMIENTO = this.nivelesService.formatearFecha(element.FECHANACIMIENTO, "AMD") + "," + this.nivelesService.formatearFecha(element.FECHANACIMIENTO, "DMA") + "," + this.calcularEdad(element.FECHANACIMIENTO)});
+    this.alumnosnivel.forEach(element => {if (element.APELLIDO2 == null) element.APELLIDO2 = ""; else element.APELLIDO2 = element.APELLIDO2})
     this.alumnosnivel.forEach(element => {element.INFOADICIONAL1 = element.INFOADICIONAL1.padStart(2,"0")
     });
 
     if (response.length>0)
     {
       this.docentenivel1 = response.filter(item => item.TIPOPERSONA === 11); 
+      this.docentenivel1.forEach(element => {element.FECHANACIMIENTO = this.nivelesService.formatearFecha(element.FECHANACIMIENTO, "AMD") + "," + this.nivelesService.formatearFecha(element.FECHANACIMIENTO, "DMA") + "," + this.calcularEdad(element.FECHANACIMIENTO)})       
       this.cantDocentes = this.docentenivel1.length
+
       if (this.cantDocentes > 0) this.hayDocentes = true
 
       this.docentenivel2 = response.filter(item => item.TIPOPERSONA === 12);
+      this.docentenivel2.forEach(element => {element.FECHANACIMIENTO =this.nivelesService.formatearFecha(element.FECHANACIMIENTO, "AMD") + "," + this.nivelesService.formatearFecha(element.FECHANACIMIENTO, "DMA") + "," + this.calcularEdad(element.FECHANACIMIENTO)})
       this.cantAsistentes = this.docentenivel2.length
+      
       if (this.cantAsistentes > 0) this.hayAsistentes = true
 
       this.cantAlumnos = this.alumnosnivel.length
@@ -211,7 +243,8 @@ export class NivelesComponent  implements OnInit{
 
     if (this.hayDocentes){
       this.imagendocente1 = this.docentenivel1[0].FOTO
-      this.nombredocente1 = this.docentenivel1[0].NOMBRES + " " + this.docentenivel1[0].APELLIDO1 + " " + this.docentenivel1[0].APELLIDO2
+      this.nombredocente1 = this.formateanombre(this.docentenivel1[0].NOMBRES, this.docentenivel1[0].APELLIDO1, this.docentenivel1[0].APELLIDO2)
+      this.iddocente = this.docentenivel1[0].idPERSONA
     }
     else
     {
@@ -220,19 +253,8 @@ export class NivelesComponent  implements OnInit{
 
     if (this.hayAsistentes){
       this.imagendocente2 = this.docentenivel2[0].FOTO
-
-      if (this.docentenivel2[0].NOMBRES != null)
-      {
-        this.nombredocente2 += this.docentenivel2[0].NOMBRES + " "
-      }
-      if (this.docentenivel2[0].APELLIDO1 != null)
-      {
-        this.nombredocente2 += this.docentenivel2[0].APELLIDO1 + " "
-      }
-      if (this.docentenivel2[0].APELLIDO2 != null)
-      {
-        this.nombredocente2 += this.docentenivel2[0].APELLIDO2 + " "
-      }                
+      this.nombredocente2 = this.formateanombre(this.docentenivel2[0].NOMBRES, this.docentenivel2[0].APELLIDO1, this.docentenivel2[0].APELLIDO2)
+      this.iddocente2 = this.docentenivel2[0].idPERSONA
     }
     else
     {
@@ -249,8 +271,9 @@ export class NivelesComponent  implements OnInit{
     }
     this.numeropersonas = this.personasnivel.length;
     this.hideLoading();
-    console.log(this.alumnosnivel )
     }
+
+ 
 
 
 

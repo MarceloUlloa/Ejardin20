@@ -46,7 +46,8 @@ thead th {
     padding: 12px;
     text-align: left;
     color: white;
-    font-size: larger;
+    font-size:small;
+    font-weight: bold;
 }
 
 /* Filas alternas */
@@ -68,10 +69,20 @@ tbody tr:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 3);
 }
 .foto {
-    max-width: 100px;
-    max-height: 100px;
+    max-width: 80px;
+    max-height: 80px;
     border-radius: 10px;
     text-align: center;
+}
+
+.hoverdocente:hover{
+    background-color: white;
+    color: black;    
+    transform: scale(1.01); /* Aplica un zoom del 110% al pasar el mouse por encima */
+    transition: transform 0.2s ease; /* Agrega una transición suave para animar el efecto */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 3);  
+    margin: 2px;
+    border-radius: 10px;
 }
 
 .fotogrande {
@@ -120,6 +131,8 @@ tbody tr:hover {
     max-height: 200px;
 }
 
+
+
 .divsinregistros{
     padding: 10px;
     background-color:rgb(248, 250, 133);
@@ -134,7 +147,7 @@ tbody tr:hover {
 
 .divinterno {
     background-color: #007bff;
-    margin: 10px;
+    margin: 2px;
     border-radius: 10px;
     padding: 10px;
     width: 50%;
@@ -150,7 +163,7 @@ tbody tr:hover {
 .divinterno2 {
     font-size: small;
     font-weight:normal;
-    margin: 10px;
+    margin: 2px;
     }    
 
 .divdocentes {
@@ -159,7 +172,7 @@ tbody tr:hover {
     vertical-align: middle;
     padding: 10px;
     align-content: center;
-    margin: 10px;
+    margin: 2px;
     background-color: #007bff;
     width:100%;
 
@@ -267,6 +280,10 @@ text-align: center;
 
 .thredondeado{
     border-radius: 10px;
+}
+
+.thcolor{
+    background-color:rgb(62, 139, 255);
 }
 
 .tdalineavertical{

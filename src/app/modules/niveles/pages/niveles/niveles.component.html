@@ -14,34 +14,28 @@
     <div class="divwindow">
       <div class="divcabecera">
           <div class="divfoto"><img [src]="this.imagennivel" class="fotogrande"></div>
-          <div class="divinterno"> 
+          <div class="divinterno "> 
             <div class="tituloheaders"><i class="fa-solid fa-users-viewfinder"></i> NIVEL {{ this.nombrenivel1 }}</div>
             <div class="divinterno2">{{ this.nombrenivel2 }}</div>
-            <div><i class="fa-solid fa-children"></i> Alumnos: {{ this.numeropersonas }}</div>
+            <div><i class="fa-solid fa-children"></i> Alumnos: {{ this.cantAlumnos }}</div>
           </div>
           
           <div class="divdocentes">
-            <div class="tituloheaders"><i class="fa-solid fa-user-graduate"></i> Educadora</div>
+            <div class="tituloheaders"><i class="fa-solid fa-user-graduate"></i> Educadoras</div>
             <div class="row">
-                <div class="divdocentesinterno col-6">
+                <div class="divdocentesinterno col-3 hoverdocente pointermano" (click)="openFicha(this.iddocente, '2')">
                   <div *ngIf="this.imagendocente1!='undefined'"><img [src]="this.imagendocente1" class="foto"></div>
                   <div>{{this.nombredocente1}}</div>
-                </div>
-                <div class="col-6">
-                  <div *ngIf="this.hayDocentes"><button class="btn btn-success btn-sm" ><i class="fa-solid fa-circle-info"></i> Ficha </button></div>
                 </div>
             </div>
           </div>
 
           <div class="divdocentes">
-            <div class="tituloheaders"><i class="fa-solid fa-user-graduate"></i> Asistente</div>
+            <div class="tituloheaders"><i class="fa-solid fa-user-graduate"></i> Asistentes</div>
             <div class="row">
-                <div class="divdocentesinterno col-6">
+                <div class="divdocentesinterno col-3 hoverdocente pointermano" (click)="openFicha(this.iddocente, '3')">
                   <div *ngIf="this.imagendocente2!='undefined'"><img [src]="this.imagendocente2" class="foto"></div>
                   <div>{{this.nombredocente2}}</div>
-                </div>
-                <div class="col-6">
-                  <div *ngIf="this.hayDocentes"><button class="btn btn-success btn-sm" ><i class="fa-solid fa-circle-info"></i> Ficha </button></div>
                 </div>
             </div>
           </div>              
@@ -54,22 +48,20 @@
               <th class="thredondeado">FOTO</th>
               <th class="pointermano thredondeado" (click)="ordena('NOMBRES')">NOMBRES <i *ngIf="this.sentidoorden == 'asc' && this.columnaactualorden == 'NOMBRES'" class="fa-solid fa-arrow-down" style="color: yellow;"></i><i *ngIf="this.sentidoorden == 'desc' && this.columnaactualorden == 'NOMBRES'" class="fa-solid fa-arrow-up" style="color: yellow;"></i></th>
               <th class="pointermano thredondeado" (click)="ordena('APELLIDO1')">APELLIDO 1 <i *ngIf="this.sentidoorden == 'asc' && this.columnaactualorden == 'APELLIDO1'" class="fa-solid fa-arrow-down" style="color: yellow;"></i><i *ngIf="this.sentidoorden == 'desc' && this.columnaactualorden == 'APELLIDO1'" class="fa-solid fa-arrow-up" style="color: yellow;"></i></th>
-              <th class="pointermano thredondeado">APELLIDO 2</th>
-              <th class="pointermano thredondeado">EDAD</th>
-              <th class="pointermano thredondeado">Género</th>
-              <th class="pointermano thredondeado"></th>
+              <th class="pointermano thredondeado" (click)="ordena('APELLIDO2')">APELLIDO 2 <i *ngIf="this.sentidoorden == 'asc' && this.columnaactualorden == 'APELLIDO2'" class="fa-solid fa-arrow-down" style="color: yellow;"></i><i *ngIf="this.sentidoorden == 'desc' && this.columnaactualorden == 'APELLIDO2'" class="fa-solid fa-arrow-up" style="color: yellow;"></i></th>
+              <th class="pointermano thredondeado" (click)="ordena('FECHANACIMIENTO')">EDAD <i *ngIf="this.sentidoorden == 'asc' && this.columnaactualorden == 'FECHANACIMIENTO'" class="fa-solid fa-arrow-down" style="color: yellow;"></i><i *ngIf="this.sentidoorden == 'desc' && this.columnaactualorden == 'FECHANACIMIENTO'" class="fa-solid fa-arrow-up" style="color: yellow;"></i></th>
+              <th class="pointermano thredondeado" (click)="ordena('GENERO')">GÉNERO <i *ngIf="this.sentidoorden == 'asc' && this.columnaactualorden == 'GENERO'" class="fa-solid fa-arrow-down" style="color: yellow;"></i><i *ngIf="this.sentidoorden == 'desc' && this.columnaactualorden == 'GENERO'" class="fa-solid fa-arrow-up" style="color: yellow;"></i></th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of alumnosnivel" (click)="openFicha(item.idPERSONA)" class="pointermano">
+            <tr *ngFor="let item of alumnosnivel" (click)="openFicha(item.idPERSONA, '1')" class="pointermano">
               <td class="tdalineavertical">{{ item.INFOADICIONAL1 }}</td>
               <td class="tdalineavertical" style="text-align: center"><img [src]="item.FOTO" class="foto"></td>
               <td class="tdalineavertical">{{ item.NOMBRES }}</td>
               <td class="tdalineavertical">{{ item.APELLIDO1 }}</td>
               <td class="tdalineavertical">{{ item.APELLIDO2 }}</td>
-              <td class="tdalineavertical">{{ this.extraeEdad(item.FECHANACIMIENTO) }}</td>
+              <td class="tdalineavertical">{{ this.extraeEdad(item.FECHANACIMIENTO) }} </td>
               <td class="tdalineavertical">{{ item.GENERO }}</td>
-              <td class="tdalineavertical"><!--<button class="btn btn-success btn-sm" (click)="openFicha(item.idPERSONA)"><i class="fa-solid fa-circle-info"></i> Ficha </button>--></td>
             </tr>
           </tbody>
         </table>
@@ -85,7 +77,7 @@
 <ng-template #FichaModal class="mi-modal">
   <div class="mi-modal" >
     <div class="modal-header2">
-      <h4 class="modal-title"><i class="fa fa-child" aria-hidden="true"></i> Ficha del Alumno</h4>
+      <h4 class="modal-title"><i class="fa fa-child" aria-hidden="true"></i> {{this.tituloficha}}</h4>
     </div>
     <div class="modal-body2 container">
 
