@@ -1,6 +1,5 @@
 
 .home-wrapper {
-
     font-family: Arial, Helvetica, sans-serif; 
     font-size: small;
     margin: 30px 0 0 17.5rem;
@@ -76,7 +75,7 @@ tbody tr:hover {
 }
 
 .hoverdocente:hover{
-    background-color: white;
+    background-color: rgb(225, 255, 255);
     color: black;    
     transform: scale(1.01); /* Aplica un zoom del 110% al pasar el mouse por encima */
     transition: transform 0.2s ease; /* Agrega una transición suave para animar el efecto */

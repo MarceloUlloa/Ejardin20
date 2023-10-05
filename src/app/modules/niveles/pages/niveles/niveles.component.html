@@ -33,9 +33,9 @@
           <div class="divdocentes">
             <div class="tituloheaders"><i class="fa-solid fa-user-graduate"></i> Asistentes</div>
             <div class="row">
-                <div class="divdocentesinterno col-3 hoverdocente pointermano" (click)="openFicha(this.iddocente, '3')">
-                  <div *ngIf="this.imagendocente2!='undefined'"><img [src]="this.imagendocente2" class="foto"></div>
-                  <div>{{this.nombredocente2}}</div>
+                <div *ngFor="let item of docentenivel2" class="divdocentesinterno col-3 hoverdocente pointermano" (click)="openFicha(item.idPERSONA, '3')">
+                  <div *ngIf="item.FOTO!='undefined'"><img [src]="item.FOTO" class="foto"></div>
+                  <div>{{item.NOMBRES}} {{item.idPERSONA}}</div>                  
                 </div>
             </div>
           </div>              
@@ -89,12 +89,12 @@
             <div class="subnombre" [innerHTML]="contenidoHTML_Edad"></div>
             <div class="subnombre" [innerHTML]="contenidoHTML_Genero"></div>
           </div>
-          <div class="ficha-alumno-datos col-7 m-1" style="width:56%">kjfvsdjhfg</div>
+          <div class="ficha-alumno-datos col-6 m-1" >kjfvsdjhfg</div>
         </div>
 
 
-        <div s class="row">
-          <div class="ficha-alumno-datos col-12 m-2">
+        <div class="row">
+          <div class="ficha-alumno-datos col-11 m-1">
 
             <ul class="nav nav-tabs" id="myTab" role="tablist">
               <li class="nav-item" role="presentation">

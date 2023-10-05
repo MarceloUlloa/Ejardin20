@@ -118,7 +118,7 @@ export class NivelesComponent  implements OnInit{
     }
     else if (tipo == '3')
     {
-       this.personaficha = this.docentenivel2
+      this.personaficha = this.docentenivel2.filter(item => item.idPERSONA === id)
       this.tituloficha = "Ficha del Docente"
     }
 
@@ -233,6 +233,8 @@ export class NivelesComponent  implements OnInit{
 
       this.docentenivel2 = response.filter(item => item.TIPOPERSONA === 12);
       this.docentenivel2.forEach(element => {element.FECHANACIMIENTO =this.nivelesService.formatearFecha(element.FECHANACIMIENTO, "AMD") + "," + this.nivelesService.formatearFecha(element.FECHANACIMIENTO, "DMA") + "," + this.calcularEdad(element.FECHANACIMIENTO)})
+      this.docentenivel2.forEach(element => {element.NOMBRES = this.formateanombre(element.NOMBRES, element.APELLIDO1, element.APELLIDO2)})
+      console.log(this.docentenivel2)
       this.cantAsistentes = this.docentenivel2.length
       
       if (this.cantAsistentes > 0) this.hayAsistentes = true
@@ -253,7 +255,7 @@ export class NivelesComponent  implements OnInit{
 
     if (this.hayAsistentes){
       this.imagendocente2 = this.docentenivel2[0].FOTO
-      this.nombredocente2 = this.formateanombre(this.docentenivel2[0].NOMBRES, this.docentenivel2[0].APELLIDO1, this.docentenivel2[0].APELLIDO2)
+      //this.nombredocente2 = this.formateanombre(this.docentenivel2[0].NOMBRES, this.docentenivel2[0].APELLIDO1, this.docentenivel2[0].APELLIDO2)
       this.iddocente2 = this.docentenivel2[0].idPERSONA
     }
     else
