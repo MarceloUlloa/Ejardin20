@@ -28,6 +28,11 @@ export class SidebarComponent implements OnInit{
         router: ['/', 'home']
       },
       {
+        name: 'Mantenedores',
+        icon: 'uil uil uil-keyboard-show',
+        router: ['/', 'mantenedores']
+      },      
+      {
         name: 'Buscar',
         icon: 'uil uil-search',
         router: ['/', 'history']
